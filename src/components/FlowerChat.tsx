@@ -34,6 +34,8 @@ export function FlowerChat() {
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value);
   const [streamingMessage, setStreamingMessage] = useState<string>("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [isModelLoading, setIsModelLoading] = useState(false);
+  const [currentLoadedModel, setCurrentLoadedModel] = useState<string | null>(null);
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
@@ -55,8 +57,28 @@ export function FlowerChat() {
     saveHistoryToStorage(history);
   }, [history]);
 
+  // Handle model loading when selectedModel changes
+  useEffect(() => {
+    if (currentLoadedModel !== selectedModel) {
+      setIsModelLoading(true);
+      // Simulate model loading time - in real implementation, this would be handled by Flower Intelligence
+      const loadingTimeout = setTimeout(() => {
+        setCurrentLoadedModel(selectedModel);
+        setIsModelLoading(false);
+      }, 2000); // 2 second loading simulation
+
+      return () => clearTimeout(loadingTimeout);
+    }
+  }, [selectedModel, currentLoadedModel]);
+
   const handleMessage = async () => {
     if (!input.trim()) return;
+
+    // If model is loading, we can still queue the message but show appropriate feedback
+    if (isModelLoading) {
+      // Could potentially queue the message or show a different message
+      return;
+    }
 
     setIsLoading(true);
     setIsStreaming(true);
@@ -131,11 +153,19 @@ export function FlowerChat() {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Model Loading Indicator */}
+            {isModelLoading && (
+              <div className="flex items-center gap-2 text-sm text-sand-600">
+                <div className="w-4 h-4 border-2 border-sand-400 border-t-transparent rounded-full animate-spin"></div>
+                <span>Loading model...</span>
+              </div>
+            )}
+
             {/* Model Selector */}
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              disabled={isLoading}
+              disabled={isLoading || isModelLoading}
               className="bg-white border border-sand-300 text-sand-900 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500 focus:border-transparent disabled:opacity-50"
             >
               {AVAILABLE_MODELS.map((model) => (
@@ -149,7 +179,7 @@ export function FlowerChat() {
             {history.length > 0 && (
               <button
                 onClick={clearHistory}
-                disabled={isLoading}
+                disabled={isLoading || isModelLoading}
                 className="text-sm text-sand-600 hover:text-sand-900 px-3 py-1.5 rounded-md hover:bg-sand-100 transition-colors disabled:opacity-50"
               >
                 Clear
@@ -160,7 +190,50 @@ export function FlowerChat() {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto pt-20 pb-24">
+      <div className="flex-1 overflow-y-auto pt-20 pb-24 relative">
+        {/* Model Loading Overlay - Only over messages */}
+        {isModelLoading && (
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
+            <div className="bg-white border border-sand-200 rounded-lg shadow-lg p-6 max-w-sm mx-4">
+              <div className="text-center">
+                {/* Animated flower icon */}
+                <div className="relative mb-4">
+                  <div className="w-12 h-12 mx-auto relative">
+                    {/* Flower petals */}
+                    <div className="absolute inset-0 animate-spin" style={{ animationDuration: '2s' }}>
+                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80"></div>
+                      <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70"></div>
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80"></div>
+                      <div className="absolute bottom-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-green-300 to-green-500 rounded-full opacity-70"></div>
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-80"></div>
+                      <div className="absolute bottom-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-red-300 to-red-500 rounded-full opacity-70"></div>
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-indigo-300 to-indigo-500 rounded-full opacity-80"></div>
+                      <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full opacity-70"></div>
+                    </div>
+                    {/* Center */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-sand-300 to-sand-500 rounded-full"></div>
+                  </div>
+                </div>
+
+                <h3 className="text-lg font-semibold text-sand-900 mb-2">Loading Model</h3>
+                <p className="text-sand-600 text-sm mb-4">
+                  Flower Intelligence is loading{' '}
+                  <span className="font-medium">
+                    {AVAILABLE_MODELS.find(m => m.value === selectedModel)?.label}
+                  </span>
+                </p>
+
+                {/* Progress dots */}
+                <div className="flex justify-center space-x-1">
+                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {history.length === 0 && !isStreaming ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
@@ -168,7 +241,9 @@ export function FlowerChat() {
                 <span className="text-2xl">💬</span>
               </div>
               <p className="text-sand-600 font-medium mb-1">No messages yet</p>
-              <p className="text-sand-500 text-sm">Start a conversation below</p>
+              <p className="text-sand-500 text-sm">
+                {isModelLoading ? 'Loading model...' : 'Start a conversation below'}
+              </p>
             </div>
           </div>
         ) : (
@@ -229,7 +304,7 @@ export function FlowerChat() {
             <input
               type="text"
               value={input}
-              placeholder="Type your message..."
+              placeholder={isModelLoading ? "Please wait for model to finish loading..." : "Type your message..."}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -242,7 +317,7 @@ export function FlowerChat() {
             />
             <button
               onClick={handleMessage}
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || isModelLoading || !input.trim()}
               className="bg-sand-900 hover:bg-sand-800 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
@@ -250,6 +325,8 @@ export function FlowerChat() {
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   <span>Sending</span>
                 </div>
+              ) : isModelLoading ? (
+                <span>Wait for model</span>
               ) : (
                 'Send'
               )}
