@@ -6,7 +6,7 @@ import reactLogo from "./react.svg";
 import { useState } from 'react';
 
 
-export async function App() {
+export function App() {
   const fi: FlowerIntelligence = FlowerIntelligence.instance;
 
   const [input, setInput] = useState("");
@@ -40,5 +40,3 @@ export async function App() {
     </div>
   );
 }
-
-export default App;
