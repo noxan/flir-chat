@@ -1,5 +1,5 @@
 import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "./index.css";
 import { AVAILABLE_MODELS } from './models';
 
@@ -119,6 +119,8 @@ export function App() {
                   </div>
                 </div>
               ))}
+              {/* Auto-scroll target */}
+              <div ref={messagesEndRef} />
             </div>
           )}
         </div>
