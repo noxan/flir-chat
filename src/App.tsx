@@ -1,6 +1,7 @@
 import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
 import { useEffect, useRef, useState } from 'react';
 import "./index.css";
+import { MarkdownMessage } from './MarkdownMessage';
 import { AVAILABLE_MODELS } from './models';
 
 const STORAGE_KEY = 'flower-chat-history';
@@ -192,7 +193,7 @@ export function App() {
                         ? 'bg-sand-100 text-sand-900'
                         : 'bg-blue-50 text-blue-900 border border-blue-100'
                     }`}>
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                      <MarkdownMessage content={message.content} isUser={message.role === 'user'} />
                     </div>
                   </div>
                 </div>
@@ -209,10 +210,8 @@ export function App() {
                   {/* Streaming Message Content */}
                   <div className="flex-1 min-w-0">
                     <div className="rounded-lg px-4 py-3 bg-blue-50 text-blue-900 border border-blue-100">
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {streamingMessage}
-                        <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
-                      </p>
+                      <MarkdownMessage content={streamingMessage} isUser={false} />
+                      <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
                     </div>
                   </div>
                 </div>
