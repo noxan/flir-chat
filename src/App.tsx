@@ -180,8 +180,8 @@ export function App() {
                   {/* Avatar */}
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                     message.role === 'user'
-                      ? 'bg-sand-200 text-sand-700'
-                      : 'bg-blue-100 text-blue-700'
+                      ? 'bg-sand-300 text-sand-800'
+                      : 'bg-blue-200 text-blue-800'
                   }`}>
                     {message.role === 'user' ? 'U' : 'AI'}
                   </div>
@@ -190,8 +190,8 @@ export function App() {
                   <div className="flex-1 min-w-0">
                     <div className={`rounded-lg px-4 py-3 ${
                       message.role === 'user'
-                        ? 'bg-sand-100 text-sand-900'
-                        : 'bg-blue-50 text-blue-900 border border-blue-100'
+                        ? 'message-user'
+                        : 'message-assistant'
                     }`}>
                       <MarkdownMessage content={message.content} isUser={message.role === 'user'} />
                     </div>
@@ -203,13 +203,13 @@ export function App() {
               {isStreaming && (
                 <div className="flex gap-4">
                   {/* Avatar */}
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-blue-100 text-blue-700">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-blue-200 text-blue-800">
                     AI
                   </div>
 
                   {/* Streaming Message Content */}
                   <div className="flex-1 min-w-0">
-                    <div className="rounded-lg px-4 py-3 bg-blue-50 text-blue-900 border border-blue-100">
+                    <div className="rounded-lg px-4 py-3 message-assistant">
                       <MarkdownMessage content={streamingMessage} isUser={false} />
                       <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
                     </div>

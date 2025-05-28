@@ -48,11 +48,11 @@
 
 @layer components {
   .message-user {
-    @apply bg-sand-200 text-sand-900 border-sand-300;
+    @apply bg-sand-200 text-sand-900 border border-sand-300;
   }
 
   .message-assistant {
-    @apply bg-warm-100 text-warm-900 border-warm-200;
+    @apply bg-blue-100 text-blue-900 border border-blue-200;
   }
 
   /* Custom syntax highlighting for code blocks */
