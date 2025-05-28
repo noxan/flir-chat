@@ -1,5 +1,5 @@
 import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./index.css";
 
 // Available models for the chooser (Web platform supported models only)
@@ -15,6 +15,27 @@ const AVAILABLE_MODELS = [
   { value: 'deepseek/r1-distill-llama-8b/q4', label: 'DeepSeek R1 Distill 8B (Q4) - Quality' },
 ];
 
+const STORAGE_KEY = 'flower-chat-history';
+
+// Helper functions for localStorage
+const loadHistoryFromStorage = (): Message[] => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.warn('Failed to load chat history from localStorage:', error);
+    return [];
+  }
+};
+
+const saveHistoryToStorage = (history: Message[]) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  } catch (error) {
+    console.warn('Failed to save chat history to localStorage:', error);
+  }
+};
+
 export function App() {
   const fi: FlowerIntelligence = FlowerIntelligence.instance;
 
@@ -22,6 +43,17 @@ export function App() {
   const [history, setHistory] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value);
+
+  // Load history from localStorage on component mount
+  useEffect(() => {
+    const savedHistory = loadHistoryFromStorage();
+    setHistory(savedHistory);
+  }, []);
+
+  // Save history to localStorage whenever it changes
+  useEffect(() => {
+    saveHistoryToStorage(history);
+  }, [history]);
 
   const handleMessage = async () => {
     setIsLoading(true);
@@ -43,15 +75,24 @@ export function App() {
     setIsLoading(false);
   }
 
+  const clearHistory = () => {
+    setHistory([]);
+  };
+
   return (
     <div className="app">
       <h1>Chat</h1>
 
-
       <div className="messages">
-        {history.map((message, index) => (
-          <div key={index}>{message.role}: {message.content}</div>
-        ))}
+        {history.length === 0 ? (
+          <div className="empty-state">No messages yet. Start a conversation!</div>
+        ) : (
+          history.map((message, index) => (
+            <div key={index} className={`message ${message.role}`}>
+              <strong>{message.role}:</strong> {message.content}
+            </div>
+          ))
+        )}
       </div>
 
       <div className="model-chooser">
@@ -68,10 +109,23 @@ export function App() {
             </option>
           ))}
         </select>
+        {history.length > 0 && (
+          <button
+            onClick={clearHistory}
+            className="clear-button"
+            disabled={isLoading}
+          >
+            Clear History
+          </button>
+        )}
       </div>
 
       <div className="input-container">
-        <input type="text" value={input} onKeyDown={(e) => {
+        <input
+          type="text"
+          value={input}
+          placeholder="Type your message..."
+          onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleMessage()
             }
@@ -79,7 +133,9 @@ export function App() {
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
         />
-        <button onClick={handleMessage} disabled={isLoading}>{isLoading ? 'Loading...' : 'Send'}</button>
+        <button onClick={handleMessage} disabled={isLoading || !input.trim()}>
+          {isLoading ? 'Loading...' : 'Send'}
+        </button>
       </div>
     </div>
   );
