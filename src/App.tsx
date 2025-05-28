@@ -1,40 +1,41 @@
-import { ChatResponseResult, FlowerIntelligence } from '@flwr/flwr';
-import "./index.css";
-
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
+import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
 import { useState } from 'react';
+import "./index.css";
 
 
 export function App() {
   const fi: FlowerIntelligence = FlowerIntelligence.instance;
 
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<ChatResponseResult[]>([]);
+  const [history, setHistory] = useState<Message[]>([]);
 
   const handleMessage = async () => {
-    const response: ChatResponseResult = await fi.chat(input);
+    setHistory(history => [...history, { role: 'user', content: input }]);
+
+    const response: ChatResponseResult = await fi.chat(input, {
+      model: 'meta/llama3.2-1b/instruct-fp16',
+      stream: true,
+      onStreamEvent: (event: StreamEvent) => console.log(event.chunk)
+    });
+
     if (response.ok) {
-      setHistory([...history, response]);
+      setHistory(history => [...history, response.message ]);
       setInput("");
+    } else {
+      console.error(`${response.failure.code}: ${response.failure.description}`);
     }
   }
 
   return (
     <div className="app">
-      <div className="logo-container">
-        <img src={logo} alt="Bun Logo" className="logo bun-logo" />
-        <img src={reactLogo} alt="React Logo" className="logo react-logo" />
-      </div>
-
       <h1>Chat</h1>
 
       <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
       <button onClick={handleMessage}>Send</button>
 
       <div className="messages">
-        {history.map((item) => (
-          <div key={item.message.id}>{item.message.content}</div>
+        {history.map((message, index) => (
+          <div key={index}>{message.content}</div>
         ))}
       </div>
     </div>
