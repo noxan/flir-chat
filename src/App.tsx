@@ -112,9 +112,9 @@ export function App() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-sand-50">
+    <div className="h-screen flex flex-col bg-sand-50 relative">
       {/* Header */}
-      <div className="border-b border-sand-200 bg-white/80 backdrop-blur-sm">
+      <div className="fixed top-0 left-0 right-0 z-10 border-b border-sand-200/50 backdrop-blur-md">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-semibold text-sand-900">Flir Chat</h1>
@@ -161,7 +161,7 @@ export function App() {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pt-20 pb-24">
         {history.length === 0 && !isStreaming ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
@@ -224,7 +224,7 @@ export function App() {
       </div>
 
       {/* Input Container */}
-      <div className="border-t border-sand-200 bg-white/80 backdrop-blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-sand-200/50 backdrop-blur-md">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex gap-3">
             <input
