@@ -1,5 +1,5 @@
 import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import "./index.css";
 
 // Available models for the chooser (Web platform supported models only)
@@ -38,11 +38,21 @@ const saveHistoryToStorage = (history: Message[]) => {
 
 export function App() {
   const fi: FlowerIntelligence = FlowerIntelligence.instance;
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value);
+
+  // Auto-scroll to bottom when messages change
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [history]);
 
   // Load history from localStorage on component mount
   useEffect(() => {
