@@ -164,3 +164,123 @@ code {
     animation: none !important;
   }
 }
+
+.model-chooser {
+  margin: 1rem 0 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.model-chooser label {
+  font-weight: 600;
+  color: #fbf0df;
+  font-size: 1.1em;
+}
+
+.model-chooser select {
+  background: #1a1a1a;
+  color: #fbf0df;
+  border: 2px solid #fbf0df;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1em;
+  font-weight: 500;
+  min-width: 200px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.model-chooser select:hover {
+  border-color: #f3d5a3;
+  background: #2a2a2a;
+}
+
+.model-chooser select:focus {
+  outline: none;
+  border-color: #f3d5a3;
+  box-shadow: 0 0 0 2px rgba(243, 213, 163, 0.2);
+}
+
+.model-chooser select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.model-chooser select option {
+  background: #1a1a1a;
+  color: #fbf0df;
+  padding: 0.5rem;
+}
+
+.messages {
+  margin: 2rem 0;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #1a1a1a;
+  border: 2px solid #fbf0df;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.messages div {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background: rgba(251, 240, 223, 0.05);
+}
+
+.input-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: #1a1a1a;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 2px solid #fbf0df;
+  transition: 0.3s;
+}
+
+.input-container:focus-within {
+  border-color: #f3d5a3;
+}
+
+.input-container input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fbf0df;
+  font-size: 1em;
+  padding: 0.5rem;
+  outline: none;
+}
+
+.input-container input::placeholder {
+  color: rgba(251, 240, 223, 0.4);
+}
+
+.input-container button {
+  background: #fbf0df;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.input-container button:hover:not(:disabled) {
+  background: #f3d5a3;
+  transform: translateY(-1px);
+}
+
+.input-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
