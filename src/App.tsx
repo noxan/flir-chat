@@ -116,8 +116,18 @@ export function App() {
       <div className="border-b border-sand-200 bg-white/80 backdrop-blur-sm">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-semibold text-sand-900">Chat</h1>
-            <span className="text-sm text-sand-600">Powered by Flower Intelligence</span>
+            <h1 className="text-xl font-semibold text-sand-900">Flir Chat</h1>
+            <span className="text-sm text-sand-600">
+              Local-only AI chat powered by{' '}
+              <a
+                href="https://flower.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sand-700 hover:text-sand-900 underline"
+              >
+                Flower Intelligence
+              </a>
+            </span>
           </div>
 
           <div className="flex items-center gap-4">
