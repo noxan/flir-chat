@@ -32,6 +32,8 @@ export function App() {
   const [history, setHistory] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value);
+  const [streamingMessage, setStreamingMessage] = useState<string>("");
+  const [isStreaming, setIsStreaming] = useState(false);
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
@@ -40,7 +42,7 @@ export function App() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [history]);
+  }, [history, streamingMessage]);
 
   // Load history from localStorage on component mount
   useEffect(() => {
@@ -54,22 +56,53 @@ export function App() {
   }, [history]);
 
   const handleMessage = async () => {
+    if (!input.trim()) return;
+
     setIsLoading(true);
+    setIsStreaming(true);
+    setStreamingMessage("");
 
-    setHistory(history => [...history, { role: 'user', content: input }]);
-    const response: ChatResponseResult = await fi.chat({
-      messages: [...history, { role: 'user', content: input }],
-      model: selectedModel,
-      stream: true,
-      onStreamEvent: (event: StreamEvent) => console.log(event.chunk)
-    });
+    // Add user message to history
+    const userMessage: Message = { role: 'user', content: input };
+    setHistory(history => [...history, userMessage]);
 
-    if (response.ok) {
-      setHistory(history => [...history, response.message ]);
-      setInput("");
-    } else {
-      console.error(`${response.failure.code}: ${response.failure.description}`);
+    // Clear input immediately
+    const currentInput = input;
+    setInput("");
+
+    try {
+      const response: ChatResponseResult = await fi.chat({
+        messages: [...history, userMessage],
+        model: selectedModel,
+        stream: true,
+        onStreamEvent: (event: StreamEvent) => {
+          // Append each chunk to the streaming message
+          setStreamingMessage(prev => prev + event.chunk);
+        }
+      });
+
+      if (response.ok) {
+        // Add the complete AI message to history
+        setHistory(history => [...history, response.message]);
+        setStreamingMessage("");
+        setIsStreaming(false);
+      } else {
+        console.error(`${response.failure.code}: ${response.failure.description}`);
+        // On error, restore the input and remove the user message
+        setInput(currentInput);
+        setHistory(history => history.slice(0, -1));
+        setStreamingMessage("");
+        setIsStreaming(false);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      // On error, restore the input and remove the user message
+      setInput(currentInput);
+      setHistory(history => history.slice(0, -1));
+      setStreamingMessage("");
+      setIsStreaming(false);
     }
+
     setIsLoading(false);
   }
 
@@ -118,7 +151,7 @@ export function App() {
 
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto">
-        {history.length === 0 ? (
+        {history.length === 0 && !isStreaming ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-sand-100 flex items-center justify-center mb-4 mx-auto">
@@ -154,6 +187,27 @@ export function App() {
                   </div>
                 </div>
               ))}
+
+              {/* Streaming Message */}
+              {isStreaming && (
+                <div className="flex gap-4">
+                  {/* Avatar */}
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-blue-100 text-blue-700">
+                    AI
+                  </div>
+
+                  {/* Streaming Message Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="rounded-lg px-4 py-3 bg-blue-50 text-blue-900 border border-blue-100">
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                        {streamingMessage}
+                        <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
           </div>
