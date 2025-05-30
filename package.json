@@ -9,7 +9,7 @@
     "bun": ">=1.0.0"
   },
   "scripts": {
-    "format": "biome format --write && biome check --write",
+    "format": "biome format --write && biome check --write --unsafe",
     "dev": "bun --hot src/index.tsx",
     "start": "NODE_ENV=production bun src/index.tsx",
     "build": "bun run build.ts"

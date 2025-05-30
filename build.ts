@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
-import { existsSync } from 'fs'
-import path from 'path'
+import { existsSync } from 'node:fs'
+import { rm } from 'node:fs/promises'
+import path from 'node:path'
 import { type BuildConfig, build } from 'bun'
 import plugin from 'bun-plugin-tailwind'
-import { rm } from 'fs/promises'
 
 // Print help text if requested
 if (process.argv.includes('--help') || process.argv.includes('-h')) {

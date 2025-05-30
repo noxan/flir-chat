@@ -41,7 +41,7 @@ export function TopBar({
           {/* Model Loading Indicator */}
           {isModelLoading && (
             <div className="flex items-center gap-2 text-sm text-sand-600">
-              <div className="w-4 h-4 border-2 border-sand-400 border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-2 border-sand-400 border-t-transparent rounded-full animate-spin" />
               <span>Loading model...</span>
             </div>
           )}
@@ -61,7 +61,7 @@ export function TopBar({
               ))}
             </select>
           ) : (
-            <div className="bg-sand-200 animate-pulse rounded-md h-8 w-48"></div>
+            <div className="bg-sand-200 animate-pulse rounded-md h-8 w-48" />
           )}
 
           {/* Clear History Button */}

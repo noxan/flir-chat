@@ -169,17 +169,17 @@ export function FlowerChat() {
                       className="absolute inset-0 animate-spin"
                       style={{ animationDuration: '2s' }}
                     >
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80"></div>
-                      <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70"></div>
-                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80"></div>
-                      <div className="absolute bottom-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-green-300 to-green-500 rounded-full opacity-70"></div>
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-80"></div>
-                      <div className="absolute bottom-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-red-300 to-red-500 rounded-full opacity-70"></div>
-                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-indigo-300 to-indigo-500 rounded-full opacity-80"></div>
-                      <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full opacity-70"></div>
+                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80" />
+                      <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70" />
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80" />
+                      <div className="absolute bottom-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-green-300 to-green-500 rounded-full opacity-70" />
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-80" />
+                      <div className="absolute bottom-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-red-300 to-red-500 rounded-full opacity-70" />
+                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-indigo-300 to-indigo-500 rounded-full opacity-80" />
+                      <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full opacity-70" />
                     </div>
                     {/* Center */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-sand-300 to-sand-500 rounded-full"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-sand-300 to-sand-500 rounded-full" />
                   </div>
                 </div>
 
@@ -201,15 +201,15 @@ export function FlowerChat() {
                   <div
                     className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
                     style={{ animationDelay: '0ms' }}
-                  ></div>
+                  />
                   <div
                     className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
                     style={{ animationDelay: '150ms' }}
-                  ></div>
+                  />
                   <div
                     className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
                     style={{ animationDelay: '300ms' }}
-                  ></div>
+                  />
                 </div>
               </div>
             </div>
@@ -279,7 +279,7 @@ export function FlowerChat() {
                         content={streamingMessage}
                         isUser={false}
                       />
-                      <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
+                      <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse" />
                     </div>
                   </div>
                 </div>
@@ -320,7 +320,7 @@ export function FlowerChat() {
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   <span>Sending</span>
                 </div>
               ) : isModelLoading ? (

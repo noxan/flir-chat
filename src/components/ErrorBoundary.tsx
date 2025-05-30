@@ -94,23 +94,23 @@ export class ErrorBoundary extends Component<Props, State> {
                   Troubleshooting Tips:
                 </h3>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
                   <span className="text-sm">
                     Check your internet connection
                   </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
                   <span className="text-sm">Try refreshing the page</span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
                   <span className="text-sm">
                     Ensure you're using a modern browser
                   </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
                   <span className="text-sm">
                     Disable browser extensions if needed
                   </span>
