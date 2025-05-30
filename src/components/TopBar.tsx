@@ -1,3 +1,4 @@
+import { Loader2, Settings, Trash2 } from 'lucide-react'
 import { AVAILABLE_MODELS } from '../models'
 
 interface TopBarProps {
@@ -41,25 +42,28 @@ export function TopBar({
           {/* Model Loading Indicator */}
           {isModelLoading && (
             <div className="flex items-center gap-2 text-sm text-sand-600">
-              <div className="w-4 h-4 border-2 border-sand-400 border-t-transparent rounded-full animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
               <span>Loading model...</span>
             </div>
           )}
 
           {/* Model Selector or Loading Placeholder */}
           {selectedModel && onModelChange ? (
-            <select
-              value={selectedModel}
-              onChange={(e) => onModelChange(e.target.value)}
-              disabled={isLoading || isModelLoading || disabled}
-              className="bg-white border border-sand-300 text-sand-900 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500 focus:border-transparent disabled:opacity-50"
-            >
-              {AVAILABLE_MODELS.map((model) => (
-                <option key={model.value} value={model.value}>
-                  {model.label}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={selectedModel}
+                onChange={(e) => onModelChange(e.target.value)}
+                disabled={isLoading || isModelLoading || disabled}
+                className="bg-white border border-sand-300 text-sand-900 rounded-md pl-8 pr-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sand-500 focus:border-transparent disabled:opacity-50 appearance-none"
+              >
+                {AVAILABLE_MODELS.map((model) => (
+                  <option key={model.value} value={model.value}>
+                    {model.label}
+                  </option>
+                ))}
+              </select>
+              <Settings className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-sand-500 pointer-events-none" />
+            </div>
           ) : (
             <div className="bg-sand-200 animate-pulse rounded-md h-8 w-48" />
           )}
@@ -70,9 +74,10 @@ export function TopBar({
               type="button"
               onClick={onClearHistory}
               disabled={isLoading || isModelLoading || disabled}
-              className="text-sm text-sand-600 hover:text-sand-900 px-3 py-1.5 rounded-md hover:bg-sand-100 transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 text-sm text-sand-600 hover:text-sand-900 px-3 py-1.5 rounded-md hover:bg-sand-100 transition-colors disabled:opacity-50"
             >
-              Clear
+              <Trash2 className="w-4 h-4" />
+              <span>Clear</span>
             </button>
           )}
         </div>

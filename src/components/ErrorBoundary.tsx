@@ -1,3 +1,4 @@
+import { AlertTriangle, CheckCircle } from 'lucide-react'
 import { Component, type ErrorInfo, type ReactNode } from 'react'
 
 interface Props {
@@ -6,13 +7,13 @@ interface Props {
 
 interface State {
   hasError: boolean
-  error?: Error
+  error: Error | null
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = { hasError: false, error: null }
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -20,7 +21,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error loading Flower Intelligence:', error, errorInfo)
+    console.error('ErrorBoundary caught an error:', error, errorInfo)
   }
 
   render() {
@@ -54,7 +55,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="text-center max-w-md mx-auto px-6">
               {/* Error icon */}
               <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-red-100 flex items-center justify-center">
-                <span className="text-4xl">⚠️</span>
+                <AlertTriangle className="w-10 h-10 text-red-500" />
               </div>
 
               {/* Error text */}
@@ -95,23 +96,23 @@ export class ErrorBoundary extends Component<Props, State> {
                   Troubleshooting Tips:
                 </h3>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-sand-400 mt-0.5 flex-shrink-0" />
                   <span className="text-sm">
                     Check your internet connection
                   </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-sand-400 mt-0.5 flex-shrink-0" />
                   <span className="text-sm">Try refreshing the page</span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-sand-400 mt-0.5 flex-shrink-0" />
                   <span className="text-sm">
                     Ensure you're using a modern browser
                   </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-sand-400 mt-0.5 flex-shrink-0" />
                   <span className="text-sm">
                     Disable browser extensions if needed
                   </span>

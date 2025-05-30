@@ -4,6 +4,7 @@ import {
   type Message,
   type StreamEvent,
 } from '@flwr/flwr'
+import { Flower2, Loader2, MessageCircle, Send } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { MarkdownMessage } from '../MarkdownMessage'
 import { AVAILABLE_MODELS } from '../models'
@@ -164,23 +165,11 @@ export function FlowerChat() {
               <div className="text-center">
                 {/* Animated flower icon */}
                 <div className="relative mb-4">
-                  <div className="w-12 h-12 mx-auto relative">
-                    {/* Flower petals */}
-                    <div
-                      className="absolute inset-0 animate-spin"
+                  <div className="w-12 h-12 mx-auto relative flex items-center justify-center">
+                    <Flower2
+                      className="w-10 h-10 text-pink-400 animate-spin"
                       style={{ animationDuration: '2s' }}
-                    >
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80" />
-                      <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70" />
-                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80" />
-                      <div className="absolute bottom-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-green-300 to-green-500 rounded-full opacity-70" />
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-80" />
-                      <div className="absolute bottom-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-red-300 to-red-500 rounded-full opacity-70" />
-                      <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-indigo-300 to-indigo-500 rounded-full opacity-80" />
-                      <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full opacity-70" />
-                    </div>
-                    {/* Center */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-sand-300 to-sand-500 rounded-full" />
+                    />
                   </div>
                 </div>
 
@@ -221,7 +210,7 @@ export function FlowerChat() {
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <div className="w-12 h-12 rounded-full bg-sand-100 flex items-center justify-center mb-4 mx-auto">
-                <span className="text-2xl">💬</span>
+                <MessageCircle className="w-6 h-6 text-sand-600" />
               </div>
               <p className="text-sand-600 font-medium mb-1">No messages yet</p>
               <p className="text-sand-500 text-sm">
@@ -321,17 +310,20 @@ export function FlowerChat() {
               type="button"
               onClick={handleMessage}
               disabled={isLoading || isModelLoading || !input.trim()}
-              className="bg-sand-900 hover:bg-sand-800 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-sand-900 hover:bg-sand-800 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   <span>Sending</span>
-                </div>
+                </>
               ) : isModelLoading ? (
                 <span>Wait for model</span>
               ) : (
-                'Send'
+                <>
+                  <Send className="w-4 h-4" />
+                  <span>Send</span>
+                </>
               )}
             </button>
           </div>

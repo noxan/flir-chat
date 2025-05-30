@@ -1,3 +1,4 @@
+import { CheckCircle, Flower2 } from 'lucide-react'
 import { TopBar } from './TopBar'
 
 export function LoadingScreen() {
@@ -11,23 +12,11 @@ export function LoadingScreen() {
         <div className="text-center max-w-md mx-auto px-6">
           {/* Animated flower icon */}
           <div className="relative mb-8">
-            <div className="w-20 h-20 mx-auto relative">
-              {/* Flower petals */}
-              <div
-                className="absolute inset-0 animate-spin"
+            <div className="w-20 h-20 mx-auto relative flex items-center justify-center">
+              <Flower2
+                className="w-16 h-16 text-pink-400 animate-spin"
                 style={{ animationDuration: '3s' }}
-              >
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80" />
-                <div className="absolute top-2 right-2 w-5 h-5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70" />
-                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80" />
-                <div className="absolute bottom-2 right-2 w-5 h-5 bg-gradient-to-br from-green-300 to-green-500 rounded-full opacity-70" />
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full opacity-80" />
-                <div className="absolute bottom-2 left-2 w-5 h-5 bg-gradient-to-br from-red-300 to-red-500 rounded-full opacity-70" />
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-gradient-to-br from-indigo-300 to-indigo-500 rounded-full opacity-80" />
-                <div className="absolute top-2 left-2 w-5 h-5 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full opacity-70" />
-              </div>
-              {/* Center */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-sand-300 to-sand-500 rounded-full" />
+              />
             </div>
           </div>
 
@@ -60,19 +49,19 @@ export function LoadingScreen() {
           {/* Features preview */}
           <div className="mt-12 space-y-3 text-left">
             <div className="flex items-center gap-3 text-sand-700">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
+              <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="text-sm">Privacy-first local AI processing</span>
             </div>
             <div className="flex items-center gap-3 text-sand-700">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
+              <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="text-sm">Real-time streaming responses</span>
             </div>
             <div className="flex items-center gap-3 text-sand-700">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
+              <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="text-sm">Multiple AI model options</span>
             </div>
             <div className="flex items-center gap-3 text-sand-700">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
+              <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="text-sm">Persistent chat history</span>
             </div>
           </div>
