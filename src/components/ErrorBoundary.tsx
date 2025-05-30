@@ -1,26 +1,26 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react'
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface State {
-  hasError: boolean;
-  error?: Error;
+  hasError: boolean
+  error?: Error
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    return { hasError: true, error }
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error loading Flower Intelligence:', error, errorInfo);
+    console.error('Error loading Flower Intelligence:', error, errorInfo)
   }
 
   render() {
@@ -31,7 +31,9 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="fixed top-0 left-0 right-0 z-10 border-b border-sand-200/50 backdrop-blur-md">
             <div className="flex items-center justify-between px-6 py-4">
               <div className="flex items-center gap-3">
-                <h1 className="text-xl font-semibold text-sand-900">Flir Chat</h1>
+                <h1 className="text-xl font-semibold text-sand-900">
+                  Flir Chat
+                </h1>
                 <span className="text-sm text-sand-600">
                   Local-only AI chat powered by{' '}
                   <a
@@ -61,7 +63,8 @@ export class ErrorBoundary extends Component<Props, State> {
                   Failed to Load AI Engine
                 </h2>
                 <p className="text-sand-600 leading-relaxed">
-                  There was an error loading the Flower Intelligence module. This might be due to network issues or browser compatibility.
+                  There was an error loading the Flower Intelligence module.
+                  This might be due to network issues or browser compatibility.
                 </p>
 
                 {/* Error details */}
@@ -87,10 +90,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
               {/* Troubleshooting tips */}
               <div className="mt-12 space-y-3 text-left">
-                <h3 className="font-medium text-sand-900 mb-4">Troubleshooting Tips:</h3>
+                <h3 className="font-medium text-sand-900 mb-4">
+                  Troubleshooting Tips:
+                </h3>
                 <div className="flex items-start gap-3 text-sand-700">
                   <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-sm">Check your internet connection</span>
+                  <span className="text-sm">
+                    Check your internet connection
+                  </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
                   <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
@@ -98,19 +105,23 @@ export class ErrorBoundary extends Component<Props, State> {
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
                   <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-sm">Ensure you're using a modern browser</span>
+                  <span className="text-sm">
+                    Ensure you're using a modern browser
+                  </span>
                 </div>
                 <div className="flex items-start gap-3 text-sand-700">
                   <div className="w-2 h-2 bg-sand-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-sm">Disable browser extensions if needed</span>
+                  <span className="text-sm">
+                    Disable browser extensions if needed
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      );
+      )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }

@@ -1,10 +1,10 @@
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import ReactMarkdown from 'react-markdown'
+import rehypeHighlight from 'rehype-highlight'
+import remarkGfm from 'remark-gfm'
 
 interface MarkdownMessageProps {
-  content: string;
-  isUser: boolean;
+  content: string
+  isUser: boolean
 }
 
 export function MarkdownMessage({ content, isUser }: MarkdownMessageProps) {
@@ -12,7 +12,7 @@ export function MarkdownMessage({ content, isUser }: MarkdownMessageProps) {
     // For user messages, render as plain text with whitespace preservation
     return (
       <p className="text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
-    );
+    )
   }
 
   // For AI messages, render as markdown using Tailwind Typography
@@ -25,5 +25,5 @@ export function MarkdownMessage({ content, isUser }: MarkdownMessageProps) {
         {content}
       </ReactMarkdown>
     </div>
-  );
+  )
 }

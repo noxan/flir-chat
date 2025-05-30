@@ -1,7 +1,7 @@
 export interface WebGPUSupportInfo {
-  isSupported: boolean;
-  reason?: string;
-  adapter?: GPUAdapter | null;
+  isSupported: boolean
+  reason?: string
+  adapter?: GPUAdapter | null
 }
 
 /**
@@ -10,16 +10,16 @@ export interface WebGPUSupportInfo {
  */
 export async function getWebGPUSupportInfo(): Promise<WebGPUSupportInfo> {
   if (!navigator.gpu) {
-    return { isSupported: false, reason: 'WebGPU API not available' };
+    return { isSupported: false, reason: 'WebGPU API not available' }
   }
 
   try {
-    const adapter = await navigator.gpu.requestAdapter();
+    const adapter = await navigator.gpu.requestAdapter()
     return adapter
       ? { isSupported: true, adapter }
-      : { isSupported: false, reason: 'No WebGPU adapter found' };
+      : { isSupported: false, reason: 'No WebGPU adapter found' }
   } catch (error) {
-    return { isSupported: false, reason: `Adapter request failed: ${error}` };
+    return { isSupported: false, reason: `Adapter request failed: ${error}` }
   }
 }
 
@@ -28,5 +28,5 @@ export async function getWebGPUSupportInfo(): Promise<WebGPUSupportInfo> {
  * @returns Promise<boolean>
  */
 export async function detectWebGPUSupport(): Promise<boolean> {
-  return (await getWebGPUSupportInfo()).isSupported;
+  return (await getWebGPUSupportInfo()).isSupported
 }

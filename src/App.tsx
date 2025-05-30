@@ -1,18 +1,22 @@
-import { Suspense, lazy, useState } from 'react';
-import "./index.css";
-import { LoadingScreen } from './components/LoadingScreen';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { WebGPUWarning } from './components/WebGPUWarning';
-import { useWebGPU } from './hooks/useWebGPU';
+import { Suspense, lazy, useState } from 'react'
+import './index.css'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { LoadingScreen } from './components/LoadingScreen'
+import { WebGPUWarning } from './components/WebGPUWarning'
+import { useWebGPU } from './hooks/useWebGPU'
 
 // Lazy load the FlowerChat component which contains all the Flower Intelligence logic
-const FlowerChat = lazy(() => import('./components/FlowerChat').then(module => ({ default: module.FlowerChat })));
+const FlowerChat = lazy(() =>
+  import('./components/FlowerChat').then((module) => ({
+    default: module.FlowerChat,
+  })),
+)
 
 export function App() {
-  const { isSupported, reason, isLoading } = useWebGPU();
-  const [warningDismissed, setWarningDismissed] = useState(false);
+  const { isSupported, reason, isLoading } = useWebGPU()
+  const [warningDismissed, setWarningDismissed] = useState(false)
 
-  const showWarning = !isLoading && !isSupported && !warningDismissed;
+  const showWarning = !isLoading && !isSupported && !warningDismissed
 
   return (
     <div className="h-screen flex flex-col bg-sand-50 relative">
@@ -30,5 +34,5 @@ export function App() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  );
+  )
 }

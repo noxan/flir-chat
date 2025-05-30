@@ -1,4 +1,4 @@
-import { TopBar } from './TopBar';
+import { TopBar } from './TopBar'
 
 export function LoadingScreen() {
   return (
@@ -13,7 +13,10 @@ export function LoadingScreen() {
           <div className="relative mb-8">
             <div className="w-20 h-20 mx-auto relative">
               {/* Flower petals */}
-              <div className="absolute inset-0 animate-spin" style={{ animationDuration: '3s' }}>
+              <div
+                className="absolute inset-0 animate-spin"
+                style={{ animationDuration: '3s' }}
+              >
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80"></div>
                 <div className="absolute top-2 right-2 w-5 h-5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70"></div>
                 <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80"></div>
@@ -39,9 +42,18 @@ export function LoadingScreen() {
 
             {/* Progress dots */}
             <div className="flex justify-center space-x-2 pt-4">
-              <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-              <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-              <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              <div
+                className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                style={{ animationDelay: '0ms' }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                style={{ animationDelay: '150ms' }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                style={{ animationDelay: '300ms' }}
+              ></div>
             </div>
           </div>
 
@@ -77,5 +89,5 @@ export function LoadingScreen() {
         </div>
       </div>
     </div>
-  );
+  )
 }

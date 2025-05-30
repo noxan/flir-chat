@@ -1,97 +1,104 @@
-import { ChatResponseResult, FlowerIntelligence, Message, StreamEvent } from '@flwr/flwr';
-import { useEffect, useRef, useState } from 'react';
-import { MarkdownMessage } from '../MarkdownMessage';
-import { AVAILABLE_MODELS } from '../models';
-import { TopBar } from './TopBar';
+import {
+  type ChatResponseResult,
+  FlowerIntelligence,
+  type Message,
+  type StreamEvent,
+} from '@flwr/flwr'
+import { useEffect, useRef, useState } from 'react'
+import { MarkdownMessage } from '../MarkdownMessage'
+import { AVAILABLE_MODELS } from '../models'
+import { TopBar } from './TopBar'
 
-const STORAGE_KEY = 'flower-chat-history';
+const STORAGE_KEY = 'flower-chat-history'
 
 // Helper functions for localStorage
 const loadHistoryFromStorage = (): Message[] => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : []
   } catch (error) {
-    console.warn('Failed to load chat history from localStorage:', error);
-    return [];
+    console.warn('Failed to load chat history from localStorage:', error)
+    return []
   }
-};
+}
 
 const saveHistoryToStorage = (history: Message[]) => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
   } catch (error) {
-    console.warn('Failed to save chat history to localStorage:', error);
+    console.warn('Failed to save chat history to localStorage:', error)
   }
-};
+}
 
 export function FlowerChat() {
-  const fi: FlowerIntelligence = FlowerIntelligence.instance;
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fi: FlowerIntelligence = FlowerIntelligence.instance
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const [input, setInput] = useState("");
-  const [history, setHistory] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value);
-  const [streamingMessage, setStreamingMessage] = useState<string>("");
-  const [isStreaming, setIsStreaming] = useState(false);
-  const [isModelLoading, setIsModelLoading] = useState(false);
-  const [currentLoadedModel, setCurrentLoadedModel] = useState<string | null>(null);
+  const [input, setInput] = useState('')
+  const [history, setHistory] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [selectedModel, setSelectedModel] = useState(AVAILABLE_MODELS[0].value)
+  const [streamingMessage, setStreamingMessage] = useState<string>('')
+  const [isStreaming, setIsStreaming] = useState(false)
+  const [isModelLoading, setIsModelLoading] = useState(false)
+  const [currentLoadedModel, setCurrentLoadedModel] = useState<string | null>(
+    null,
+  )
 
   // Auto-scroll to bottom when messages change
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   useEffect(() => {
-    scrollToBottom();
-  }, [history, streamingMessage]);
+    scrollToBottom()
+  }, [history, streamingMessage])
 
   // Load history from localStorage on component mount
   useEffect(() => {
-    const savedHistory = loadHistoryFromStorage();
-    setHistory(savedHistory);
-  }, []);
+    const savedHistory = loadHistoryFromStorage()
+    setHistory(savedHistory)
+  }, [])
 
   // Save history to localStorage whenever it changes
   useEffect(() => {
-    saveHistoryToStorage(history);
-  }, [history]);
+    saveHistoryToStorage(history)
+  }, [history])
 
   // Handle model loading when selectedModel changes
   useEffect(() => {
     if (currentLoadedModel !== selectedModel) {
-      setIsModelLoading(true);
+      setIsModelLoading(true)
       // Simulate model loading time - in real implementation, this would be handled by Flower Intelligence
       const loadingTimeout = setTimeout(() => {
-        setCurrentLoadedModel(selectedModel);
-        setIsModelLoading(false);
-      }, 2000); // 2 second loading simulation
+        setCurrentLoadedModel(selectedModel)
+        setIsModelLoading(false)
+      }, 2000) // 2 second loading simulation
 
-      return () => clearTimeout(loadingTimeout);
+      return () => clearTimeout(loadingTimeout)
     }
-  }, [selectedModel, currentLoadedModel]);
+  }, [selectedModel, currentLoadedModel])
 
   const handleMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) return
 
     // If model is loading, we can still queue the message but show appropriate feedback
     if (isModelLoading) {
       // Could potentially queue the message or show a different message
-      return;
+      return
     }
 
-    setIsLoading(true);
-    setIsStreaming(true);
-    setStreamingMessage("");
+    setIsLoading(true)
+    setIsStreaming(true)
+    setStreamingMessage('')
 
     // Add user message to history
-    const userMessage: Message = { role: 'user', content: input };
-    setHistory(history => [...history, userMessage]);
+    const userMessage: Message = { role: 'user', content: input }
+    setHistory((history) => [...history, userMessage])
 
     // Clear input immediately
-    const currentInput = input;
-    setInput("");
+    const currentInput = input
+    setInput('')
 
     try {
       const response: ChatResponseResult = await fi.chat({
@@ -100,38 +107,40 @@ export function FlowerChat() {
         stream: true,
         onStreamEvent: (event: StreamEvent) => {
           // Append each chunk to the streaming message
-          setStreamingMessage(prev => prev + event.chunk);
-        }
-      });
+          setStreamingMessage((prev) => prev + event.chunk)
+        },
+      })
 
       if (response.ok) {
         // Add the complete AI message to history
-        setHistory(history => [...history, response.message]);
-        setStreamingMessage("");
-        setIsStreaming(false);
+        setHistory((history) => [...history, response.message])
+        setStreamingMessage('')
+        setIsStreaming(false)
       } else {
-        console.error(`${response.failure.code}: ${response.failure.description}`);
+        console.error(
+          `${response.failure.code}: ${response.failure.description}`,
+        )
         // On error, restore the input and remove the user message
-        setInput(currentInput);
-        setHistory(history => history.slice(0, -1));
-        setStreamingMessage("");
-        setIsStreaming(false);
+        setInput(currentInput)
+        setHistory((history) => history.slice(0, -1))
+        setStreamingMessage('')
+        setIsStreaming(false)
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('Error sending message:', error)
       // On error, restore the input and remove the user message
-      setInput(currentInput);
-      setHistory(history => history.slice(0, -1));
-      setStreamingMessage("");
-      setIsStreaming(false);
+      setInput(currentInput)
+      setHistory((history) => history.slice(0, -1))
+      setStreamingMessage('')
+      setIsStreaming(false)
     }
 
-    setIsLoading(false);
+    setIsLoading(false)
   }
 
   const clearHistory = () => {
-    setHistory([]);
-  };
+    setHistory([])
+  }
 
   return (
     <>
@@ -156,7 +165,10 @@ export function FlowerChat() {
                 <div className="relative mb-4">
                   <div className="w-12 h-12 mx-auto relative">
                     {/* Flower petals */}
-                    <div className="absolute inset-0 animate-spin" style={{ animationDuration: '2s' }}>
+                    <div
+                      className="absolute inset-0 animate-spin"
+                      style={{ animationDuration: '2s' }}
+                    >
                       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-gradient-to-br from-pink-300 to-pink-500 rounded-full opacity-80"></div>
                       <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-br from-purple-300 to-purple-500 rounded-full opacity-70"></div>
                       <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full opacity-80"></div>
@@ -171,19 +183,33 @@ export function FlowerChat() {
                   </div>
                 </div>
 
-                <h3 className="text-lg font-semibold text-sand-900 mb-2">Loading Model</h3>
+                <h3 className="text-lg font-semibold text-sand-900 mb-2">
+                  Loading Model
+                </h3>
                 <p className="text-sand-600 text-sm mb-4">
                   Flower Intelligence is loading{' '}
                   <span className="font-medium">
-                    {AVAILABLE_MODELS.find(m => m.value === selectedModel)?.label}
+                    {
+                      AVAILABLE_MODELS.find((m) => m.value === selectedModel)
+                        ?.label
+                    }
                   </span>
                 </p>
 
                 {/* Progress dots */}
                 <div className="flex justify-center space-x-1">
-                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-sand-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div
+                    className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '0ms' }}
+                  ></div>
+                  <div
+                    className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '150ms' }}
+                  ></div>
+                  <div
+                    className="w-2 h-2 bg-sand-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '300ms' }}
+                  ></div>
                 </div>
               </div>
             </div>
@@ -198,7 +224,9 @@ export function FlowerChat() {
               </div>
               <p className="text-sand-600 font-medium mb-1">No messages yet</p>
               <p className="text-sand-500 text-sm">
-                {isModelLoading ? 'Loading model...' : 'Start a conversation below'}
+                {isModelLoading
+                  ? 'Loading model...'
+                  : 'Start a conversation below'}
               </p>
             </div>
           </div>
@@ -208,22 +236,29 @@ export function FlowerChat() {
               {history.map((message, index) => (
                 <div key={index} className="flex gap-4">
                   {/* Avatar */}
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    message.role === 'user'
-                      ? 'bg-sand-300 text-sand-800'
-                      : 'bg-blue-200 text-blue-800'
-                  }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      message.role === 'user'
+                        ? 'bg-sand-300 text-sand-800'
+                        : 'bg-blue-200 text-blue-800'
+                    }`}
+                  >
                     {message.role === 'user' ? 'U' : 'AI'}
                   </div>
 
                   {/* Message Content */}
                   <div className="flex-1 min-w-0">
-                    <div className={`rounded-lg px-4 py-3 ${
-                      message.role === 'user'
-                        ? 'message-user'
-                        : 'message-assistant'
-                    }`}>
-                      <MarkdownMessage content={message.content} isUser={message.role === 'user'} />
+                    <div
+                      className={`rounded-lg px-4 py-3 ${
+                        message.role === 'user'
+                          ? 'message-user'
+                          : 'message-assistant'
+                      }`}
+                    >
+                      <MarkdownMessage
+                        content={message.content}
+                        isUser={message.role === 'user'}
+                      />
                     </div>
                   </div>
                 </div>
@@ -240,7 +275,10 @@ export function FlowerChat() {
                   {/* Streaming Message Content */}
                   <div className="flex-1 min-w-0">
                     <div className="rounded-lg px-4 py-3 message-assistant">
-                      <MarkdownMessage content={streamingMessage} isUser={false} />
+                      <MarkdownMessage
+                        content={streamingMessage}
+                        isUser={false}
+                      />
                       <span className="inline-block w-2 h-4 bg-blue-500 ml-1 animate-pulse"></span>
                     </div>
                   </div>
@@ -260,11 +298,15 @@ export function FlowerChat() {
             <input
               type="text"
               value={input}
-              placeholder={isModelLoading ? "Please wait for model to finish loading..." : "Type your message..."}
+              placeholder={
+                isModelLoading
+                  ? 'Please wait for model to finish loading...'
+                  : 'Type your message...'
+              }
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleMessage();
+                  e.preventDefault()
+                  handleMessage()
                 }
               }}
               onChange={(e) => setInput(e.target.value)}
@@ -291,5 +333,5 @@ export function FlowerChat() {
         </div>
       </div>
     </>
-  );
+  )
 }

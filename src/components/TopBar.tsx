@@ -1,13 +1,13 @@
-import { AVAILABLE_MODELS } from '../models';
+import { AVAILABLE_MODELS } from '../models'
 
 interface TopBarProps {
-  isLoading?: boolean;
-  isModelLoading?: boolean;
-  selectedModel?: string;
-  onModelChange?: (model: string) => void;
-  onClearHistory?: () => void;
-  hasHistory?: boolean;
-  disabled?: boolean;
+  isLoading?: boolean
+  isModelLoading?: boolean
+  selectedModel?: string
+  onModelChange?: (model: string) => void
+  onClearHistory?: () => void
+  hasHistory?: boolean
+  disabled?: boolean
 }
 
 export function TopBar({
@@ -17,7 +17,7 @@ export function TopBar({
   onModelChange,
   onClearHistory,
   hasHistory = false,
-  disabled = false
+  disabled = false,
 }: TopBarProps) {
   return (
     <div className="fixed top-0 left-0 right-0 z-10 border-b border-sand-200/50 backdrop-blur-md">
@@ -77,5 +77,5 @@ export function TopBar({
         </div>
       </div>
     </div>
-  );
+  )
 }
