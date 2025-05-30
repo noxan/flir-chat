@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["@webgpu/types"]
   },
   "exclude": ["dist", "node_modules"]
 }
