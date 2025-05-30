@@ -46,13 +46,14 @@ export function FlowerChat() {
   )
 
   // Auto-scroll to bottom when messages change
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: scroll on change
   useEffect(() => {
     scrollToBottom()
-  }, [history, streamingMessage])
+  }, [history, streamingMessage, scrollToBottom])
 
   // Load history from localStorage on component mount
   useEffect(() => {
