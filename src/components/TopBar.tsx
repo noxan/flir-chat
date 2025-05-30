@@ -67,6 +67,7 @@ export function TopBar({
           {/* Clear History Button */}
           {hasHistory && onClearHistory && (
             <button
+              type="button"
               onClick={onClearHistory}
               disabled={isLoading || isModelLoading || disabled}
               className="text-sm text-sand-600 hover:text-sand-900 px-3 py-1.5 rounded-md hover:bg-sand-100 transition-colors disabled:opacity-50"

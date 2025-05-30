@@ -81,6 +81,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
                 {/* Retry button */}
                 <button
+                  type="button"
                   onClick={() => window.location.reload()}
                   className="mt-6 bg-sand-900 hover:bg-sand-800 text-white px-6 py-2 rounded-md font-medium transition-colors"
                 >

@@ -4,7 +4,7 @@ import {
   type Message,
   type StreamEvent,
 } from '@flwr/flwr'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { MarkdownMessage } from '../MarkdownMessage'
 import { AVAILABLE_MODELS } from '../models'
 import { TopBar } from './TopBar'
@@ -234,7 +234,10 @@ export function FlowerChat() {
           <div className="max-w-4xl mx-auto px-6 py-6">
             <div className="space-y-6">
               {history.map((message, index) => (
-                <div key={index} className="flex gap-4">
+                <div
+                  key={`${message.role}-${index}-${message.content.slice(0, 50)}`}
+                  className="flex gap-4"
+                >
                   {/* Avatar */}
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -314,6 +317,7 @@ export function FlowerChat() {
               className="flex-1 bg-white border border-sand-300 rounded-md px-4 py-2 text-sand-900 placeholder-sand-500 focus:outline-none focus:ring-2 focus:ring-sand-500 focus:border-transparent disabled:opacity-50"
             />
             <button
+              type="button"
               onClick={handleMessage}
               disabled={isLoading || isModelLoading || !input.trim()}
               className="bg-sand-900 hover:bg-sand-800 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
