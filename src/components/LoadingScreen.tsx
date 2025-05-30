@@ -1,30 +1,10 @@
+import { TopBar } from './TopBar';
+
 export function LoadingScreen() {
   return (
     <div className="h-screen flex flex-col bg-sand-50 relative">
       {/* Header placeholder */}
-      <div className="fixed top-0 left-0 right-0 z-10 border-b border-sand-200/50 backdrop-blur-md">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <h1 className="text-xl font-semibold text-sand-900">Flir Chat</h1>
-            <span className="text-sm text-sand-600">
-              Local-only AI chat powered by{' '}
-              <a
-                href="https://flower.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sand-700 hover:text-sand-900 underline"
-              >
-                Flower Intelligence
-              </a>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Loading placeholder for model selector */}
-            <div className="bg-sand-200 animate-pulse rounded-md h-8 w-48"></div>
-          </div>
-        </div>
-      </div>
+      <TopBar disabled />
 
       {/* Loading content */}
       <div className="flex-1 flex items-center justify-center pt-20 pb-24">
