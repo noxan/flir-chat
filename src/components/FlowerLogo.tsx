@@ -28,6 +28,7 @@ export function FlowerLogo({
         className={animate ? 'animate-spin' : ''}
         style={animate ? { animationDuration } : {}}
       >
+        <title>Flir Chat Flower Logo</title>
         {/* Flower petals */}
         {/* Top petal - Pink */}
         <circle
