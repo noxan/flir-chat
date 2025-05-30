@@ -1,4 +1,5 @@
-import { CheckCircle, Flower2 } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
+import { FlowerLogo } from './FlowerLogo'
 import { TopBar } from './TopBar'
 
 export function LoadingScreen() {
@@ -13,10 +14,7 @@ export function LoadingScreen() {
           {/* Animated flower icon */}
           <div className="relative mb-8">
             <div className="w-20 h-20 mx-auto relative flex items-center justify-center">
-              <Flower2
-                className="w-16 h-16 text-pink-400 animate-spin"
-                style={{ animationDuration: '3s' }}
-              />
+              <FlowerLogo size={80} animate={true} animationDuration="3s" />
             </div>
           </div>
 

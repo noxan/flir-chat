@@ -4,9 +4,10 @@ import {
   type Message,
   type StreamEvent,
 } from '@flwr/flwr'
-import { Flower2, Loader2, MessageCircle, Send } from 'lucide-react'
+import { Loader2, MessageCircle, Send } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AVAILABLE_MODELS } from '../models'
+import { FlowerLogo } from './FlowerLogo'
 import { MarkdownMessage } from './MarkdownMessage'
 import { TopBar } from './TopBar'
 
@@ -166,9 +167,10 @@ export function FlowerChat() {
                 {/* Animated flower icon */}
                 <div className="relative mb-4">
                   <div className="w-12 h-12 mx-auto relative flex items-center justify-center">
-                    <Flower2
-                      className="w-10 h-10 text-pink-400 animate-spin"
-                      style={{ animationDuration: '2s' }}
+                    <FlowerLogo
+                      size={48}
+                      animate={true}
+                      animationDuration="2s"
                     />
                   </div>
                 </div>
