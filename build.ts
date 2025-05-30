@@ -59,7 +59,8 @@ const parseValue = (value: string): string | number | boolean | string[] => {
 
 // Magical argument parser that converts CLI args to BuildConfig
 function parseArgs(): Partial<BuildConfig> {
-  const config: Record<string, unknown> = {}
+  // biome-ignore lint/suspicious/noExplicitAny: nested config of any type
+  const config: Record<string, any> = {}
   const args = process.argv.slice(2)
 
   for (let i = 0; i < args.length; i++) {
