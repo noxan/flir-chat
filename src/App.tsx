@@ -22,7 +22,7 @@ export function App() {
     <div className="h-screen flex flex-col bg-sand-50 relative">
       <ErrorBoundary>
         {showWarning && (
-          <div className="p-4">
+          <div className="p-4 pt-20">
             <WebGPUWarning
               reason={reason || undefined}
               onDismiss={() => setWarningDismissed(true)}
