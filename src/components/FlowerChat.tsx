@@ -6,8 +6,8 @@ import {
 } from '@flwr/flwr'
 import { Flower2, Loader2, MessageCircle, Send } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { MarkdownMessage } from '../MarkdownMessage'
 import { AVAILABLE_MODELS } from '../models'
+import { MarkdownMessage } from './MarkdownMessage'
 import { TopBar } from './TopBar'
 
 const STORAGE_KEY = 'flower-chat-history'
